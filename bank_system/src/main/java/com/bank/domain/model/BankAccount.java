@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.bank.domain.enums.AccountStatus;
+import com.bank.domain.enums.AccountType;
+import com.bank.domain.enums.Currency;
 
 public class BankAccount {
 
@@ -13,6 +15,9 @@ public class BankAccount {
     private BigDecimal balance;
     private AccountStatus status;
     private LocalDate openingDate;
+    private AccountType type;
+    private Currency currency;
+
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -42,6 +47,18 @@ public class BankAccount {
     }
     public void setOpeningDate(LocalDate openingDate) {
         this.openingDate = openingDate;
+    }
+    public AccountType getType() {
+        return type;
+    }
+    public void setType(AccountType type) {
+        this.type = type;
+    }
+    public Currency getCurrency() {
+        return currency;
+    }
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
 }

@@ -8,8 +8,23 @@ public class OperationLog {
     private String id;
     private String operationType;
     private LocalDateTime timestamp;
-    private int userId;
+    private Long userId;
+    private String role;
+    private String productId;
     private Map<String, Object> details;
+
+    public OperationLog() {}
+
+    public OperationLog(String id, String operationType, LocalDateTime timestamp, Long userId, String role, String productId, Map<String, Object> details) {
+        this.id = id;
+        this.operationType = operationType;
+        this.timestamp = timestamp;
+        this.userId = userId;
+        this.role = role;
+        this.productId = productId;
+        this.details = details;
+    }
+
     public String getId() {
         return id;
     }
@@ -28,11 +43,23 @@ public class OperationLog {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
+    }
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
+    public String getProductId() {
+        return productId;
+    }
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
     public Map<String, Object> getDetails() {
         return details;

@@ -8,28 +8,32 @@ import com.bank.domain.enums.TransferStatus;
 
 public class Transfer {
 
-    private int id;
-    private BankAccount sourceAccount;
-    private BankAccount destinationAccount;
+    private Long id;
+    private String originAccount;
+    private String destinationAccount;
     private BigDecimal amount;
     private LocalDateTime creationDate;
     private TransferStatus status;
-    public int getId() {
+    private Long creatorUserId;
+    private LocalDateTime approvalDate;
+    private Long approverUserId;
+
+    public Long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
-    public BankAccount getSourceAccount() {
-        return sourceAccount;
+    public String getOriginAccount() {
+        return originAccount;
     }
-    public void setSourceAccount(BankAccount sourceAccount) {
-        this.sourceAccount = sourceAccount;
+    public void setOriginAccount(String originAccount) {
+        this.originAccount = originAccount;
     }
-    public BankAccount getDestinationAccount() {
+    public String getDestinationAccount() {
         return destinationAccount;
     }
-    public void setDestinationAccount(BankAccount destinationAccount) {
+    public void setDestinationAccount(String destinationAccount) {
         this.destinationAccount = destinationAccount;
     }
     public BigDecimal getAmount() {
@@ -49,6 +53,24 @@ public class Transfer {
     }
     public void setStatus(TransferStatus status) {
         this.status = status;
+    }
+    public Long getCreatorUserId() {
+        return creatorUserId;
+    }
+    public void setCreatorUserId(Long creatorUserId) {
+        this.creatorUserId = creatorUserId;
+    }
+    public LocalDateTime getApprovalDate() {
+        return approvalDate;
+    }
+    public void setApprovalDate(LocalDateTime approvalDate) {
+        this.approvalDate = approvalDate;
+    }
+    public Long getApproverUserId() {
+        return approverUserId;
+    }
+    public void setApproverUserId(Long approverUserId) {
+        this.approverUserId = approverUserId;
     }
 
 }
