@@ -5,4 +5,6 @@ public abstract class Client {
     protected String email;
     protected String phone;
     protected String address;
+    protected String name;
+    protected String documentId;
 }
