@@ -138,10 +138,12 @@ public class TransferService {
         origin.setBalance(originBefore.subtract(transfer.getAmount()));
         bankAccountRepository.save(origin);
 
-        BigDecimal destBefore = BigDecimal.ZERO;
-        BigDecimal destAfter = BigDecimal.ZERO;
+        BigDecimal[] destBefore = {BigDecimal.ZERO};
+        BigDecimal[] destAfter = {BigDecimal.ZERO};
         bankAccountRepository.findByAccountNumber(transfer.getDestinationAccount()).ifPresent(dest -> {
+            destBefore[0] = dest.getBalance();
             dest.setBalance(dest.getBalance().add(transfer.getAmount()));
+            destAfter[0] = dest.getBalance();
             bankAccountRepository.save(dest);
         });
 
@@ -156,7 +158,9 @@ public class TransferService {
                         "monto", transfer.getAmount(),
                         "saldoAntesOrigen", originBefore,
                         "saldoDespuesOrigen", origin.getBalance(),
-                        "cuentaDestino", transfer.getDestinationAccount())));
+                        "cuentaDestino", transfer.getDestinationAccount(),
+                        "saldoAntesDestino", destBefore[0],
+                        "saldoDespuesDestino", destAfter[0])));
     }
 
     private BankAccount getActiveAccount(String accountNumber) {
