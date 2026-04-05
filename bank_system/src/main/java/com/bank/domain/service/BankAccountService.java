@@ -40,7 +40,7 @@ public class BankAccountService {
         BankAccount account = new BankAccount();
         account.setAccountNumber(generateAccountNumber());
         account.setType(type);
-        account.setOwner(client);
+        account.setOwnerId(clientDocumentId);
         account.setBalance(BigDecimal.ZERO);
         account.setCurrency(currency);
         account.setStatus(AccountStatus.ACTIVE);
