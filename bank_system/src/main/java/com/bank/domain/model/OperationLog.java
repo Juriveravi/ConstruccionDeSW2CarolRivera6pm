@@ -1,4 +1,4 @@
-package com.bank.infraestructure.logging;
+package com.bank.domain.model;
 
 import java.time.LocalDateTime;
 import java.util.Map;
