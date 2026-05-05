@@ -45,7 +45,7 @@ public class CreateTransferService {
      */
     @Transactional
     public Transfer createTransfer(String originAccountNumber, String destinationAccountNumber,
-                                   BigDecimal amount) {
+                                   BigDecimal amount, Long creatorUserId) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("The amount must be greater than zero.");
         }
@@ -58,6 +58,7 @@ public class CreateTransferService {
         transfer.setAmount(amount);
         transfer.setCreationDate(LocalDateTime.now());
         transfer.setStatus(TransferStatus.PENDING_APPROVAL);
+        transfer.setCreatorUserId(creatorUserId);
 
         return transferRepository.save(transfer);
     }

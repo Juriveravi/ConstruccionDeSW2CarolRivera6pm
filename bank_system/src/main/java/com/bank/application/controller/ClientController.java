@@ -1,8 +1,12 @@
 package com.bank.application.controller;
 
-import com.bank.domain.enums.UserStatus;
+import com.bank.application.dto.ClientResponse;
+import com.bank.application.dto.CreateClientRequest;
+import com.bank.application.dto.DtoMapper;
+import com.bank.application.dto.UpdateClientStatusRequest;
 import com.bank.domain.model.Client;
 import com.bank.domain.service.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +22,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<Client> createClient(@RequestBody CreateClientRequest request) {
+    public ResponseEntity<ClientResponse> createClient(@Valid @RequestBody CreateClientRequest request) {
         Client client = new Client();
         client.setDocumentId(request.documentId());
         client.setName(request.name());
@@ -28,26 +32,17 @@ public class ClientController {
         client.setAddress(request.address());
 
         Client created = clientService.createClient(client);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        return ResponseEntity.status(HttpStatus.CREATED).body(DtoMapper.toClientResponse(created));
     }
 
     @GetMapping("/{documentId}")
-    public ResponseEntity<Client> getClient(@PathVariable String documentId) {
-        return ResponseEntity.ok(clientService.findByDocumentId(documentId));
+    public ResponseEntity<ClientResponse> getClient(@PathVariable String documentId) {
+        return ResponseEntity.ok(DtoMapper.toClientResponse(clientService.findByDocumentId(documentId)));
     }
 
     @PatchMapping("/{documentId}/status")
-    public ResponseEntity<Client> updateStatus(@PathVariable String documentId,
-                                               @RequestBody UpdateStatusRequest request) {
-        return ResponseEntity.ok(clientService.updateStatus(documentId, request.status()));
+    public ResponseEntity<ClientResponse> updateStatus(@PathVariable String documentId,
+                                               @Valid @RequestBody UpdateClientStatusRequest request) {
+        return ResponseEntity.ok(DtoMapper.toClientResponse(clientService.updateStatus(documentId, request.status())));
     }
-
-    public record CreateClientRequest(String documentId,
-                                      String name,
-                                      String identification,
-                                      String email,
-                                      String phone,
-                                      String address) {}
-
-    public record UpdateStatusRequest(UserStatus status) {}
 }
