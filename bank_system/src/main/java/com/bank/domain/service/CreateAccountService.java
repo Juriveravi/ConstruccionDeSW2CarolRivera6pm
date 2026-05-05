@@ -13,21 +13,34 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
+/**
+ * Service responsible for creating and opening bank accounts.
+ * Single Responsibility: Account creation operations.
+ */
 @Service
-public class BankAccountService {
+public class CreateAccountService {
 
     private final BankAccountRepository bankAccountRepository;
     private final ClientRepository clientRepository;
 
-    public BankAccountService(BankAccountRepository bankAccountRepository,
-                              ClientRepository clientRepository) {
+    public CreateAccountService(BankAccountRepository bankAccountRepository,
+                                ClientRepository clientRepository) {
         this.bankAccountRepository = bankAccountRepository;
         this.clientRepository = clientRepository;
     }
 
+    /**
+     * Open a new bank account for an active client.
+     *
+     * @param clientDocumentId the client's document ID
+     * @param type the type of account
+     * @param currency the currency
+     * @return the created bank account
+     * @throws IllegalArgumentException if client not found
+     * @throws IllegalStateException if client is not active
+     */
     @Transactional
     public BankAccount openAccount(String clientDocumentId, AccountType type, Currency currency) {
         Client client = clientRepository.findByDocumentId(clientDocumentId)
@@ -49,15 +62,11 @@ public class BankAccountService {
         return bankAccountRepository.save(account);
     }
 
-    public BankAccount findByAccountNumber(String accountNumber) {
-        return bankAccountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new IllegalArgumentException("Account not found: " + accountNumber));
-    }
-
-    public List<BankAccount> findByOwner(String documentId) {
-        return bankAccountRepository.findByOwnerId(documentId);
-    }
-
+    /**
+     * Generate a unique account number.
+     *
+     * @return a unique account number
+     */
     private String generateAccountNumber() {
         return "ACC-" + UUID.randomUUID().toString().substring(0, 10).toUpperCase();
     }
