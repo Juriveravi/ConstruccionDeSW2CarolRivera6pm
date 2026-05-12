@@ -1,20 +1,42 @@
-package com.bank.domain.model;
+package com.bank.infrastructure.persistence.entities;
 
 import com.bank.domain.enums.AccountStatus;
 import com.bank.domain.enums.AccountType;
 import com.bank.domain.enums.Currency;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class BankAccount {
+@Entity
+@Table(name = "bank_accounts")
+public class BankAccountEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "account_number", nullable = false, unique = true)
     private String accountNumber;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
     private AccountType type;
+
+    @Column(name = "owner_id", nullable = false)
     private String ownerId;
+
+    @Column(name = "balance", nullable = false, precision = 19, scale = 2)
     private BigDecimal balance = BigDecimal.ZERO;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "currency", nullable = false)
     private Currency currency;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private AccountStatus status;
+
+    @Column(name = "opening_date", nullable = false)
     private LocalDate openingDate;
 
     public Long getId() { return id; }

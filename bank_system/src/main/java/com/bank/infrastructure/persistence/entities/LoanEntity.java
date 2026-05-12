@@ -1,22 +1,49 @@
-package com.bank.domain.model;
+package com.bank.infrastructure.persistence.entities;
 
 import com.bank.domain.enums.LoanStatus;
 import com.bank.domain.enums.LoanType;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Loan {
+@Entity
+@Table(name = "loans")
+public class LoanEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
     private LoanType type;
+
+    @Column(name = "client_document_id", nullable = false)
     private String clientDocumentId;
+
+    @Column(name = "requested_amount", nullable = false, precision = 19, scale = 2)
     private BigDecimal requestedAmount;
+
+    @Column(name = "approved_amount", precision = 19, scale = 2)
     private BigDecimal approvedAmount;
+
+    @Column(name = "interest_rate", precision = 5, scale = 2)
     private BigDecimal interestRate;
+
+    @Column(name = "term_months", nullable = false)
     private int termMonths;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private LoanStatus status;
+
+    @Column(name = "approval_date")
     private LocalDate approvalDate;
+
+    @Column(name = "disbursement_date")
     private LocalDate disbursementDate;
+
+    @Column(name = "target_account_number")
     private String targetAccountNumber;
 
     public Long getId() { return id; }

@@ -5,6 +5,7 @@ import com.bank.domain.port.OperationLogRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,16 +18,9 @@ public class OperationLogService {
         this.repository = repository;
     }
 
-    public void log(
-            String operationType,
-            Long userId,
-            String role,
-            String productId,
-            Map<String, Object> details
-    ) {
-
+    public void log(String operationType, Long userId, String role,
+                    String productId, Map<String, Object> details) {
         OperationLog log = new OperationLog();
-
         log.setId(UUID.randomUUID().toString());
         log.setOperationType(operationType);
         log.setTimestamp(LocalDateTime.now());
@@ -34,7 +28,10 @@ public class OperationLogService {
         log.setRole(role);
         log.setProductId(productId);
         log.setDetails(details);
-
         repository.save(log);
+    }
+
+    public List<OperationLog> findAll() {
+        return repository.findAll();
     }
 }

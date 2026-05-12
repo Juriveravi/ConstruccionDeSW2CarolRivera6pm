@@ -1,19 +1,34 @@
-package com.bank.domain.model;
+package com.bank.infrastructure.persistence.entities;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-public class OperationLog {
+@Document(collection = "operation_logs")
+public class OperationLogDocument {
 
+    @Id
     private String id;
-    private String operationType;
-    private LocalDateTime timestamp;
-    private Long userId;
-    private String role;
-    private String productId;
-    private Map<String, Object> details;
 
-    public OperationLog() {}
+    @Field("operation_type")
+    private String operationType;
+
+    @Field("timestamp")
+    private LocalDateTime timestamp;
+
+    @Field("user_id")
+    private Long userId;
+
+    @Field("role")
+    private String role;
+
+    @Field("product_id")
+    private String productId;
+
+    @Field("details")
+    private Map<String, Object> details;
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }

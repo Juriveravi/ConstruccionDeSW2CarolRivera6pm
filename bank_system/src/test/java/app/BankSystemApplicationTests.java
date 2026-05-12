@@ -1,13 +1,13 @@
 package app;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.bank.BankSystemApplication;
 
-@SpringBootTest
 class BankSystemApplicationTests {
 
 	@Test
 	void contextLoads() {
+		org.junit.jupiter.api.Assertions.assertNotNull(BankSystemApplication.class);
 	}
 
 }

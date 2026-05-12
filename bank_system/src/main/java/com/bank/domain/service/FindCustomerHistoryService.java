@@ -2,6 +2,8 @@ package com.bank.domain.service;
 
 import com.bank.domain.model.OperationLog;
 import com.bank.domain.port.OperationLogRepository;
+
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,5 +29,10 @@ public class FindCustomerHistoryService {
      */
     public List<OperationLog> getCustomerHistory(String productId) {
         return operationLogRepository.findByAffectedProductId(productId);
+    }
+
+    public @Nullable Object findByProductId(String productId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByProductId'");
     }
 }

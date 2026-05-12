@@ -70,6 +70,15 @@ cd bank_system
 ./mvnw spring-boot:run
 ```
 
+Antes de ejecutar la aplicación, define las credenciales de SQL Server como variables de entorno:
+
+```bash
+set BANK_DB_USERNAME=tu_usuario
+set BANK_DB_PASSWORD=tu_password
+```
+
+La seguridad HTTP usa autenticación básica y Spring Boot genera una contraseña temporal si no se define un usuario personalizado.
+
 También se puede ejecutar desde un entorno de desarrollo como NetBeans o Visual Studio Code ejecutando la clase principal del proyecto.
 
 ---

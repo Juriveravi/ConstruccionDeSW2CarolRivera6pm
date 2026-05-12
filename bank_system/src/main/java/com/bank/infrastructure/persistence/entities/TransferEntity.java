@@ -1,19 +1,41 @@
-package com.bank.domain.model;
+package com.bank.infrastructure.persistence.entities;
 
 import com.bank.domain.enums.TransferStatus;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Transfer {
+@Entity
+@Table(name = "transfers")
+public class TransferEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "origin_account", nullable = false)
     private String originAccount;
+
+    @Column(name = "destination_account", nullable = false)
     private String destinationAccount;
+
+    @Column(name = "amount", nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
+
+    @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate;
+
+    @Column(name = "approval_date")
     private LocalDateTime approvalDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private TransferStatus status;
+
+    @Column(name = "creator_user_id", nullable = false)
     private Long creatorUserId;
+
+    @Column(name = "approver_user_id")
     private Long approverUserId;
 
     public Long getId() { return id; }

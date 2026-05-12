@@ -1,16 +1,36 @@
-package com.bank.domain.model;
+package com.bank.infrastructure.persistence.entities;
 
 import com.bank.domain.enums.UserStatus;
+import jakarta.persistence.*;
 
-public class Client {
+@Entity
+@Table(name = "clients")
+public class ClientEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "identification")
     private String identification;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "phone")
     private String phone;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "document_id", nullable = false, unique = true)
     private String documentId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private UserStatus status;
 
     public Long getId() { return id; }

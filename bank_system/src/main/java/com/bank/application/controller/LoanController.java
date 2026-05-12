@@ -6,8 +6,8 @@ import com.bank.application.dto.DtoMapper;
 import com.bank.application.dto.LoanResponse;
 import com.bank.domain.enums.LoanStatus;
 import com.bank.domain.model.Loan;
-import com.bank.domain.service.CreateLoanService;
 import com.bank.domain.service.ApproveLoanService;
+import com.bank.domain.service.CreateLoanService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +23,12 @@ public class LoanController {
     private final ApproveLoanService approveLoanService;
 
     public LoanController(CreateLoanService createLoanService,
-                         ApproveLoanService approveLoanService) {
+                          ApproveLoanService approveLoanService) {
         this.createLoanService = createLoanService;
         this.approveLoanService = approveLoanService;
     }
 
-    /** POST /api/loans — Solicita un nuevo préstamo */
+    /** POST /api/loans — Request a new loan */
     @PostMapping
     public ResponseEntity<LoanResponse> requestLoan(@Valid @RequestBody CreateLoanRequest request) {
         Loan loan = createLoanService.requestLoan(
@@ -39,13 +39,13 @@ public class LoanController {
         return ResponseEntity.status(HttpStatus.CREATED).body(DtoMapper.toLoanResponse(loan));
     }
 
-    /** GET /api/loans/{id} — Consulta un préstamo por ID */
+    /** GET /api/loans/{id} — Get a loan by ID */
     @GetMapping("/{id}")
     public ResponseEntity<LoanResponse> getLoan(@PathVariable Long id) {
-        return ResponseEntity.ok(DtoMapper.toLoanResponse(createLoanService.getLoan(id)));
+        return ResponseEntity.ok(DtoMapper.toLoanResponse(approveLoanService.getLoan(id)));
     }
 
-    /** GET /api/loans/client/{documentId} — Préstamos de un cliente */
+    /** GET /api/loans/client/{documentId} — Loans by client */
     @GetMapping("/client/{documentId}")
     public ResponseEntity<List<LoanResponse>> getLoansByClient(@PathVariable String documentId) {
         return ResponseEntity.ok(createLoanService.getLoansByClient(documentId)
@@ -54,7 +54,7 @@ public class LoanController {
                 .toList());
     }
 
-    /** GET /api/loans/status/{status} — Filtrar préstamos por estado (uso de Analista) */
+    /** GET /api/loans/status/{status} — Filter loans by status */
     @GetMapping("/status/{status}")
     public ResponseEntity<List<LoanResponse>> getLoansByStatus(@PathVariable LoanStatus status) {
         return ResponseEntity.ok(createLoanService.getLoansByStatus(status)
@@ -63,21 +63,21 @@ public class LoanController {
                 .toList());
     }
 
-    /** PATCH /api/loans/{id}/approve — Aprueba un préstamo (solo Analista Interno) */
+    /** PATCH /api/loans/{id}/approve — Approve a loan (Internal Analyst only) */
     @PatchMapping("/{id}/approve")
     public ResponseEntity<LoanResponse> approveLoan(@PathVariable Long id,
                                                     @Valid @RequestBody ApproveLoanRequest request) {
-        return ResponseEntity.ok(DtoMapper.toLoanResponse(approveLoanService.approveLoan(id, request.approvedAmount(),
-                request.interestRate())));
+        return ResponseEntity.ok(DtoMapper.toLoanResponse(
+                approveLoanService.approveLoan(id, request.approvedAmount(), request.interestRate())));
     }
 
-    /** PATCH /api/loans/{id}/reject — Rechaza un préstamo (solo Analista Interno) */
+    /** PATCH /api/loans/{id}/reject — Reject a loan (Internal Analyst only) */
     @PatchMapping("/{id}/reject")
     public ResponseEntity<LoanResponse> rejectLoan(@PathVariable Long id) {
         return ResponseEntity.ok(DtoMapper.toLoanResponse(approveLoanService.rejectLoan(id)));
     }
 
-    /** PATCH /api/loans/{id}/disburse — Desembolsa un préstamo aprobado */
+    /** PATCH /api/loans/{id}/disburse — Disburse an approved loan */
     @PatchMapping("/{id}/disburse")
     public ResponseEntity<LoanResponse> disburseLoan(@PathVariable Long id) {
         return ResponseEntity.ok(DtoMapper.toLoanResponse(approveLoanService.disburseLoan(id)));
