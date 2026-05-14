@@ -49,6 +49,12 @@ public class CreateLoanService {
         if (client.getStatus() != UserStatus.ACTIVE) {
             throw new IllegalStateException("The client is not active.");
         }
+        if (requestedAmount == null || requestedAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("The requested amount must be greater than zero.");
+        }
+        if (termMonths < 1) {
+            throw new IllegalArgumentException("The loan term must be at least one month.");
+        }
 
         Loan loan = new Loan();
         loan.setType(loanType);

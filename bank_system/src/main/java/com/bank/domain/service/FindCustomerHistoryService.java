@@ -32,7 +32,6 @@ public class FindCustomerHistoryService {
     }
 
     public @Nullable Object findByProductId(String productId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByProductId'");
+        return getCustomerHistory(productId);
     }
 }

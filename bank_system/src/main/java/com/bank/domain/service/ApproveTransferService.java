@@ -50,6 +50,7 @@ public class ApproveTransferService {
         }
 
         transfer.setApprovalDate(LocalDateTime.now());
+        transfer.setStatus(TransferStatus.APPROVED);
 
         return transferRepository.save(transfer);
     }

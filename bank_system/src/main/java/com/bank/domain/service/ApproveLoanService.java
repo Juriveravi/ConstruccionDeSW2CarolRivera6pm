@@ -46,6 +46,18 @@ public class ApproveLoanService {
         if (loan.getStatus() != LoanStatus.UNDER_REVIEW) {
             throw new IllegalStateException("Only loans in UNDER_REVIEW status can be approved.");
         }
+        if (approvedAmount == null || approvedAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("The approved amount must be greater than zero.");
+        }
+        if (loan.getRequestedAmount() != null && approvedAmount.compareTo(loan.getRequestedAmount()) > 0) {
+            throw new IllegalStateException("The approved amount cannot exceed the requested amount.");
+        }
+        if (interestRate == null || interestRate.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("The interest rate must be greater than zero.");
+        }
+        if (interestRate.compareTo(BigDecimal.valueOf(100)) > 0) {
+            throw new IllegalStateException("The interest rate cannot exceed 100.");
+        }
 
         loan.setApprovedAmount(approvedAmount);
         loan.setInterestRate(interestRate);

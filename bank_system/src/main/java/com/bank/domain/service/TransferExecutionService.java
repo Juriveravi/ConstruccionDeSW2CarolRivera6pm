@@ -41,8 +41,8 @@ public class TransferExecutionService {
     public Transfer executeTransfer(Long transferId) {
         Transfer transfer = getTransfer(transferId);
 
-        if (transfer.getStatus() != TransferStatus.PENDING_APPROVAL) {
-            throw new IllegalStateException("Only pending approval transfers can be executed.");
+        if (transfer.getStatus() != TransferStatus.APPROVED) {
+            throw new IllegalStateException("Only approved transfers can be executed.");
         }
 
         BankAccount origin = getActiveAccount(transfer.getOriginAccount());
